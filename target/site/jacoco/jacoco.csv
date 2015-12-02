@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+ParkingTicketProject,main,RunSystem,73,0,16,0,25,0,10,0,2,0
+ParkingTicketProject,main,PreBookedTicket,254,0,16,0,66,0,11,0,3,0
+ParkingTicketProject,main,AutorisationFile,225,0,20,0,44,0,13,0,3,0
+ParkingTicketProject,main,WeekdayPrices,159,0,78,0,28,0,41,0,2,0
+ParkingTicketProject,main,ExitBarrier,629,0,48,0,166,0,28,0,4,0
+ParkingTicketProject,main,CentralLogFile,261,0,20,0,50,0,13,0,3,0
+ParkingTicketProject,main,WeekendPrices,159,0,78,0,28,0,41,0,2,0
+ParkingTicketProject,main,EntranceTicket,288,0,24,0,60,0,15,0,3,0

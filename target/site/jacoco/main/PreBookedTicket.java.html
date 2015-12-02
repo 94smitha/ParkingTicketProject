@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PreBookedTicket.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ParkingTicketProject</a> &gt; <a href="index.source.html" class="el_package">main</a> &gt; <span class="el_source">PreBookedTicket.java</span></div><h1>PreBookedTicket.java</h1><pre class="source lang-java linenums">package main;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Scanner;
+
+<span class="nc" id="L13">public class PreBookedTicket</span>
+{
+    // initialises static variables
+    static int hoursBooked;
+
+<span class="nc" id="L18">    static double priceTemp = 0;</span>
+
+    static String cardNo;
+
+    static String passOrFail;
+
+<span class="nc" id="L24">    static String reason = &quot;n/a&quot;;</span>
+
+    static Date expiry;
+
+    public static void preBook() throws ParseException, IOException
+    {
+        // initialises other variables
+<span class="nc" id="L31">        Scanner keyboard = new Scanner(System.in);</span>
+
+        String regNo;
+
+        {
+            // user enters reg number
+<span class="nc" id="L37">            System.out.print(&quot;Enter Reg Number&quot;);</span>
+<span class="nc" id="L38">            regNo = keyboard.nextLine().toUpperCase();</span>
+
+            // asks the user how many hours they would like to stay for
+<span class="nc" id="L41">            System.out.print(&quot;How many hours?&quot;);</span>
+            while (true)
+                // error handling for non-numeric values
+                try
+                {
+<span class="nc" id="L46">                    hoursBooked = Integer.parseInt(keyboard.nextLine());</span>
+<span class="nc" id="L47">                    break;</span>
+                }
+<span class="nc" id="L49">                catch (NumberFormatException nfe)</span>
+                {
+<span class="nc" id="L51">                    System.out.println(&quot;Please enter a numeric value&quot;);</span>
+<span class="nc" id="L52">                }</span>
+            // error handling for values below 0 and above 24
+<span class="nc bnc" id="L54" title="All 4 branches missed.">            while (hoursBooked &lt;= 0 || hoursBooked &gt; 24)</span>
+            {
+<span class="nc" id="L56">                System.out.println(&quot;Please enter a value between 1 and 24&quot;);</span>
+<span class="nc" id="L57">                hoursBooked = keyboard.nextInt();</span>
+
+            }
+            // finds the current day of the week
+<span class="nc" id="L61">            Calendar mydate = Calendar.getInstance();</span>
+<span class="nc" id="L62">            int dow = mydate.get(Calendar.DAY_OF_WEEK);</span>
+<span class="nc bnc" id="L63" title="All 4 branches missed.">            boolean isWeekday = (dow &gt;= Calendar.MONDAY) &amp;&amp; (dow &lt;= Calendar.FRIDAY);</span>
+            // if it is a weekday, calls the weekday method to work out the price
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            if (isWeekday == true)</span>
+            {
+<span class="nc" id="L67">                WeekdayPrices.weekday();</span>
+<span class="nc" id="L68">                System.out.println(&quot;Total price is: �&quot; + WeekdayPrices.price + &quot;0&quot;);</span>
+<span class="nc" id="L69">                priceTemp = WeekdayPrices.price;</span>
+            }
+            // if it is a weekend, calls the weekend method to work out the price
+            else
+            {
+<span class="nc" id="L74">                WeekendPrices.weekend();</span>
+<span class="nc" id="L75">                System.out.println(&quot;Total price is: �&quot; + WeekendPrices.price + &quot;0&quot;);</span>
+<span class="nc" id="L76">                priceTemp = WeekendPrices.price;</span>
+            }
+
+            // asks the user to enter their card number
+<span class="nc" id="L80">            System.out.println(&quot;\nEnter card number:&quot;);</span>
+<span class="nc" id="L81">            cardNo = keyboard.next();</span>
+            // ensures that the card number must be 16 digits in length
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            while (cardNo.length() != 16)</span>
+            {
+<span class="nc" id="L85">                passOrFail = &quot;fail&quot;;</span>
+<span class="nc" id="L86">                reason = &quot;Incorrect card number&quot;;</span>
+<span class="nc" id="L87">                System.out.println(&quot;Card numbers must be 16 digits long.\nPlease enter card number.&quot;);</span>
+<span class="nc" id="L88">                cardNo = keyboard.next();</span>
+            }
+<span class="nc" id="L90">            passOrFail = &quot;pass&quot;;</span>
+            // asks the user to enter their expiry date in a mm/yy format
+<span class="nc" id="L92">            System.out.println(&quot;Please enter your expiration date in the format mm/yy&quot;);</span>
+<span class="nc" id="L93">            String input = keyboard.next();</span>
+            // checks whether the date entered is before the current date
+<span class="nc" id="L95">            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;MM/yy&quot;);</span>
+<span class="nc" id="L96">            simpleDateFormat.setLenient(false);</span>
+<span class="nc" id="L97">            expiry = simpleDateFormat.parse(input);</span>
+<span class="nc" id="L98">            boolean expired = expiry.before(new Date());</span>
+            // if the card has expired, tells the user this and allows them to re-enter
+<span class="nc bnc" id="L100" title="All 2 branches missed.">            while (expired == true)</span>
+            {
+<span class="nc" id="L102">                passOrFail = &quot;fail&quot;;</span>
+<span class="nc" id="L103">                reason = &quot;Card expired&quot;;</span>
+<span class="nc" id="L104">                System.out.println(&quot;This card has already expired.\nPlease enter a different card.&quot;);</span>
+<span class="nc" id="L105">                System.out.println(&quot;\nEnter card number:&quot;);</span>
+<span class="nc" id="L106">                cardNo = keyboard.next();</span>
+                // ensures that the card number must be 16 digits in length
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                while (cardNo.length() != 16)</span>
+                {
+<span class="nc" id="L110">                    passOrFail = &quot;fail&quot;;</span>
+<span class="nc" id="L111">                    reason = &quot;Incorrect Card Number&quot;;</span>
+<span class="nc" id="L112">                    System.out.println(&quot;Card numbers must be 16 digits long.\nPlease enter card number.&quot;);</span>
+<span class="nc" id="L113">                    cardNo = keyboard.next();</span>
+                }
+
+                // asks the user to enter their expiry date in a mm/yy format
+<span class="nc" id="L117">                System.out.println(&quot;Please enter your expiration date in the format mm/yy&quot;);</span>
+<span class="nc" id="L118">                input = keyboard.next();</span>
+                // checks whether the date entered is before the current date
+<span class="nc" id="L120">                simpleDateFormat = new SimpleDateFormat(&quot;MM/yy&quot;);</span>
+<span class="nc" id="L121">                simpleDateFormat.setLenient(false);</span>
+<span class="nc" id="L122">                expiry = simpleDateFormat.parse(input);</span>
+<span class="nc" id="L123">                expired = expiry.before(new Date());</span>
+
+            }
+<span class="nc" id="L126">            passOrFail = &quot;pass&quot;;</span>
+            // writes the reg number and number of hours booked to a text file
+<span class="nc" id="L128">            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(</span>
+                    &quot;C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\PreBookedData.txt&quot;, true)));
+            {
+<span class="nc" id="L131">                out.println();</span>
+<span class="nc" id="L132">                out.print(regNo);</span>
+<span class="nc" id="L133">                out.print(&quot;\t&quot; + hoursBooked);</span>
+<span class="nc" id="L134">                out.println(&quot;\t&quot; + priceTemp);</span>
+
+            }
+<span class="nc" id="L137">            out.close();</span>
+            // confirms transaction and tells the user how much they have been charged
+<span class="nc" id="L139">            System.out.println(&quot;Thank you. Your card has been charged �&quot; + priceTemp + &quot;0&quot;);</span>
+
+<span class="nc" id="L141">            hoursBooked = 0;</span>
+        }
+
+<span class="nc" id="L144">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

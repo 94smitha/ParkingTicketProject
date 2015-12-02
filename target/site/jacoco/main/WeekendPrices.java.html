@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>WeekendPrices.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ParkingTicketProject</a> &gt; <a href="index.source.html" class="el_package">main</a> &gt; <span class="el_source">WeekendPrices.java</span></div><h1>WeekendPrices.java</h1><pre class="source lang-java linenums">package main;
+
+<span class="nc" id="L3">public class WeekendPrices extends PreBookedTicket</span>
+{
+    static double price;
+
+    public static void weekend()
+    {
+<span class="nc bnc" id="L9" title="All 6 branches missed.">        if ((hoursBooked == 1) || (ExitBarrier.hoursToCharge == 1) || (ExitBarrier.differenceHours == 1))</span>
+        {
+<span class="nc" id="L11">            price = 1.6;</span>
+        }
+<span class="nc bnc" id="L13" title="All 6 branches missed.">        else if ((hoursBooked == 2) || (ExitBarrier.hoursToCharge == 2) || (ExitBarrier.differenceHours == 2))</span>
+        {
+<span class="nc" id="L15">            price = 4.4;</span>
+        }
+<span class="nc bnc" id="L17" title="All 6 branches missed.">        else if ((hoursBooked == 2) || (ExitBarrier.hoursToCharge == 2) || (ExitBarrier.differenceHours == 3))</span>
+        {
+<span class="nc" id="L19">            price = 7.4;</span>
+        }
+<span class="nc bnc" id="L21" title="All 6 branches missed.">        else if ((hoursBooked == 4) || (ExitBarrier.hoursToCharge == 4) || (ExitBarrier.differenceHours == 3))</span>
+        {
+<span class="nc" id="L23">            price = 7.4;</span>
+        }
+<span class="nc bnc" id="L25" title="All 6 branches missed.">        else if ((hoursBooked == 5) || (ExitBarrier.hoursToCharge == 5) || (ExitBarrier.differenceHours == 5))</span>
+        {
+<span class="nc" id="L27">            price = 12.1;</span>
+        }
+<span class="nc bnc" id="L29" title="All 6 branches missed.">        else if ((hoursBooked == 6) || (ExitBarrier.hoursToCharge == 6) || (ExitBarrier.differenceHours == 6))</span>
+        {
+<span class="nc" id="L31">            price = 12.1;</span>
+        }
+<span class="nc bnc" id="L33" title="All 6 branches missed.">        else if ((hoursBooked == 7) || (ExitBarrier.hoursToCharge == 7) || (ExitBarrier.differenceHours == 7))</span>
+        {
+<span class="nc" id="L35">            price = 15.1;</span>
+        }
+<span class="nc bnc" id="L37" title="All 6 branches missed.">        else if ((hoursBooked == 8) || (ExitBarrier.hoursToCharge == 8) || (ExitBarrier.differenceHours == 8))</span>
+        {
+<span class="nc" id="L39">            price = 15.1;</span>
+        }
+<span class="nc bnc" id="L41" title="All 6 branches missed.">        else if ((hoursBooked == 9) || (ExitBarrier.hoursToCharge == 9) || (ExitBarrier.differenceHours == 9))</span>
+        {
+<span class="nc" id="L43">            price = 15.1;</span>
+        }
+<span class="nc bnc" id="L45" title="All 6 branches missed.">        else if ((hoursBooked == 10) || (ExitBarrier.hoursToCharge == 10) || (ExitBarrier.differenceHours == 10))</span>
+        {
+<span class="nc" id="L47">            price = 17.6;</span>
+        }
+<span class="nc bnc" id="L49" title="All 6 branches missed.">        else if ((hoursBooked == 11) || (ExitBarrier.hoursToCharge == 11) || (ExitBarrier.differenceHours == 11))</span>
+        {
+<span class="nc" id="L51">            price = 17.6;</span>
+        }
+<span class="nc bnc" id="L53" title="All 6 branches missed.">        else if ((hoursBooked == 12) || (ExitBarrier.hoursToCharge == 12) || (ExitBarrier.differenceHours == 12))</span>
+        {
+<span class="nc" id="L55">            price = 17.6;</span>
+        }
+<span class="nc bnc" id="L57" title="All 6 branches missed.">        else if ((hoursBooked &lt;= 24) || (ExitBarrier.hoursToCharge &lt;= 24) || (ExitBarrier.differenceHours &lt;= 24))</span>
+        {
+<span class="nc" id="L59">            price = 21.2;</span>
+        }
+
+<span class="nc" id="L62">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

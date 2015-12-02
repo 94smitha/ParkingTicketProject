@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>EntranceTicket.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ParkingTicketProject</a> &gt; <a href="index.source.html" class="el_package">main</a> &gt; <span class="el_source">EntranceTicket.java</span></div><h1>EntranceTicket.java</h1><pre class="source lang-java linenums">package main;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Scanner;
+
+<span class="nc" id="L15">public class EntranceTicket {</span>
+	
+    static int hoursStayed;
+
+<span class="nc" id="L19">    static int transNo = 0;</span>
+
+<span class="nc" id="L21">    static String regNo = null;</span>
+
+<span class="nc" id="L23">    static DateFormat dateFormat = new SimpleDateFormat(&quot;dd/MM/yyyy HH:mm&quot;);</span>
+
+<span class="nc" id="L25">    static Date date = new Date();</span>
+
+    public static void entry() throws Exception
+    {
+        // initialises variables
+<span class="nc" id="L30">        Scanner keyboard = new Scanner(System.in);</span>
+
+<span class="nc" id="L32">        boolean prePaid = false;</span>
+
+        // increments transaction number
+        try
+        {
+<span class="nc" id="L37">            File f = new File(&quot;C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\EntranceTicketData.txt&quot;);</span>
+<span class="nc" id="L38">            Scanner sc = new Scanner(f);</span>
+
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            while (sc.hasNextLine())</span>
+            {
+<span class="nc" id="L42">                String line = sc.nextLine();</span>
+<span class="nc" id="L43">                String[] details = line.split(&quot;\t&quot;);</span>
+<span class="nc" id="L44">                transNo = Integer.parseInt(details[0]);</span>
+
+<span class="nc" id="L46">            }</span>
+<span class="nc" id="L47">            sc.close();</span>
+
+        }
+        finally
+<span class="nc" id="L51">        {</span>
+
+<span class="nc" id="L53">        }</span>
+
+        // gets current date and time
+
+        // user enter reg number
+<span class="nc" id="L58">        System.out.print(&quot;Enter Reg Number&quot;);</span>
+<span class="nc" id="L59">        regNo = keyboard.nextLine().toUpperCase();</span>
+
+        // looks in pre-booked data file to see if number plate is present meaning they have pre-booked
+        try
+        {
+<span class="nc" id="L64">            File file = new File(&quot;C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\PreBookedData.txt&quot;);</span>
+<span class="nc" id="L65">            Scanner scan = new Scanner(file);</span>
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">            while (scan.hasNextLine())</span>
+            {
+<span class="nc" id="L69">                String line = scan.nextLine();</span>
+
+<span class="nc bnc" id="L71" title="All 4 branches missed.">                if (line != null &amp;&amp; line.contains(regNo))</span>
+                {
+                    // if number plate is present, sets pre-paid boolean to true
+                    {
+<span class="nc" id="L75">                        String[] details = line.split(&quot;\t&quot;);</span>
+<span class="nc" id="L76">                        hoursStayed = Integer.parseInt(details[1]);</span>
+
+<span class="nc" id="L78">                        prePaid = true;</span>
+                        // reads hours stayed from only the line that the number plate was stored on and sets to a
+                        // variable
+
+<span class="nc" id="L82">                    }</span>
+                   
+                } else
+<span class="nc" id="L85">                        prePaid = false;</span>
+<span class="nc" id="L86">            }</span>
+<span class="nc" id="L87">            scan.close();</span>
+        }
+        finally
+<span class="nc" id="L90">        {</span>
+<span class="nc" id="L91">        }</span>
+
+        // writes data to a text file
+<span class="nc" id="L94">        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(</span>
+                &quot;C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\EntranceTicketData.txt&quot;, true))))
+        {
+<span class="nc" id="L97">            out.print(transNo + 1);</span>
+<span class="nc" id="L98">            out.print(&quot;\t&quot; + dateFormat.format(date));</span>
+<span class="nc" id="L99">            out.print(&quot;\t&quot; + regNo);</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">            if (prePaid == false)</span>
+            {
+<span class="nc" id="L102">                out.print(&quot;\tno&quot;);</span>
+            }
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            else if (prePaid == true)</span>
+            {
+<span class="nc" id="L106">                out.print(&quot;\tyes&quot;);</span>
+            }
+
+<span class="nc" id="L109">            System.out.println(&quot;\nTransaction Number: &quot; + (transNo + 1));</span>
+<span class="nc" id="L110">            System.out.println(&quot;Registration Number: &quot; + regNo);</span>
+
+<span class="nc bnc" id="L112" title="All 2 branches missed.">            if (prePaid == true)</span>
+            {
+<span class="nc" id="L114">                System.out.println(&quot;You have pre-paid for &quot; + hoursStayed + &quot; hours. &quot;);</span>
+<span class="nc" id="L115">                Calendar calendar = Calendar.getInstance();</span>
+<span class="nc" id="L116">                calendar.setTime(date);</span>
+<span class="nc" id="L117">                calendar.add(Calendar.HOUR, hoursStayed);</span>
+<span class="nc" id="L118">                Date exitTime = calendar.getTime();</span>
+<span class="nc" id="L119">                System.out.println(&quot;Your exit time is &quot; + (dateFormat.format(exitTime))</span>
+                        + &quot;. After this time you will be required to pay additional charges.&quot;);
+<span class="nc" id="L121">                out.println(&quot;\t&quot; + dateFormat.format(exitTime));</span>
+<span class="nc" id="L122">            }</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">            else if (prePaid == false)</span>
+            {
+<span class="nc" id="L125">                System.out.println(&quot;You have not pre-paid for this ticket. Please pay on departure.&quot;);</span>
+<span class="nc" id="L126">                out.println(&quot;\tNot pre-paid&quot;);</span>
+            }
+<span class="nc bnc" id="L128" title="All 8 branches missed.">        }</span>
+<span class="nc" id="L129">        catch (IOException e)</span>
+        {
+<span class="nc" id="L131">            throw new Exception(e);</span>
+<span class="nc" id="L132">        }</span>
+        {
+
+        }
+
+<span class="nc" id="L137">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

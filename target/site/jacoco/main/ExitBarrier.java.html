@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ExitBarrier.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ParkingTicketProject</a> &gt; <a href="index.source.html" class="el_package">main</a> &gt; <span class="el_source">ExitBarrier.java</span></div><h1>ExitBarrier.java</h1><pre class="source lang-java linenums">package main;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+<span class="nc" id="L15">public class ExitBarrier extends EntranceTicket</span>
+{
+<span class="nc" id="L17">    private static final Logger log = Logger.getLogger(ExitBarrier.class.getName());</span>
+
+    static boolean prePaid;
+
+<span class="nc" id="L21">    static double priceTemp = 0;</span>
+
+    static String yesOrNo;
+
+    static int lineNumber;
+
+<span class="nc" id="L27">    static Date entryTime = null;</span>
+
+<span class="nc" id="L29">    static Date exitTime = new Date();</span>
+
+    static int hours;
+
+    static int minutes;
+
+<span class="nc" id="L35">    static int differenceTimes = hours;</span>
+
+    static int differenceMinutes;
+
+    static int hoursBooked;
+
+    static int differenceHours;
+
+    static int hoursToCharge;
+
+    static int discountPrice;
+
+    static String regNumber;
+
+<span class="nc" id="L49">    static boolean overstayed = false;</span>
+
+    static String cardNo;
+
+    static String passOrFail;
+
+    static String reason;
+
+    static Date expiry;
+
+    public static void exit() throws IOException, ParseException
+    {
+        // initialises variables
+<span class="nc" id="L62">        Scanner keyboard = new Scanner(System.in);</span>
+
+<span class="nc" id="L64">        DateFormat dateFormat = new SimpleDateFormat(&quot;dd/MM/yyyy HH:mm&quot;);</span>
+
+<span class="nc" id="L66">        String filePath = &quot;C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\EntranceTicketData.txt&quot;;</span>
+
+<span class="nc" id="L68">        DecimalFormat twoDP = new DecimalFormat(&quot;##.##&quot;);</span>
+
+        // user enters reg Number
+<span class="nc" id="L71">        System.out.println();</span>
+<span class="nc" id="L72">        System.out.print(&quot;Enter your Reg Number&quot;);</span>
+<span class="nc" id="L73">        regNumber = keyboard.nextLine().toUpperCase();</span>
+<span class="nc" id="L74">        System.out.println(regNumber);</span>
+
+        // read number plate from EntranceTicket class
+
+        try
+        {
+            
+<span class="nc" id="L81">			File file = new File(filePath);</span>
+<span class="nc" id="L82">            Scanner scan = new Scanner(file);</span>
+
+<span class="nc" id="L84">            int lineNum = 0;</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            while (scan.hasNextLine())</span>
+            {
+<span class="nc" id="L87">                String line = scan.nextLine();</span>
+<span class="nc" id="L88">                lineNum++;</span>
+
+<span class="nc bnc" id="L90" title="All 4 branches missed.">                if (line != null &amp;&amp; line.contains(regNumber))</span>
+                {
+
+<span class="nc" id="L93">                   stayedFor(dateFormat, lineNum, line);</span>
+                }
+<span class="nc" id="L95">            }</span>
+        }
+
+<span class="nc" id="L98">        catch (ParseException e)</span>
+        {
+<span class="nc" id="L100">            log.log(Level.SEVERE, &quot;error parseing&quot;, e);</span>
+        }
+        finally
+<span class="nc" id="L103">        {</span>
+<span class="nc" id="L104">        }</span>
+
+        try
+        {
+<span class="nc" id="L108">            File file = new File(&quot;C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\PreBookedData.txt&quot;);</span>
+<span class="nc" id="L109">            Scanner scan = new Scanner(file);</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            while (scan.hasNextLine())</span>
+            {
+<span class="nc" id="L113">                String line = scan.nextLine();</span>
+
+<span class="nc bnc" id="L115" title="All 4 branches missed.">                if (line != null &amp;&amp; line.contains(regNumber))</span>
+                {
+                    {
+
+                        // reads hours stayed from only the line that the number plate was stored on and sets to a
+                        // variable
+<span class="nc" id="L121">                        String[] details = line.split(&quot;\t&quot;);</span>
+<span class="nc" id="L122">                        hoursBooked = Integer.parseInt(details[1]);</span>
+<span class="nc" id="L123">                        System.out.println(&quot;You have pre-paid for this ticket for &quot; + hoursBooked + &quot; hours&quot;);</span>
+
+<span class="nc" id="L125">                        differenceHours = hoursToCharge - hoursBooked;</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                        if (differenceHours &gt; 0)</span>
+                        {
+<span class="nc" id="L128">                            overstayed = true;</span>
+<span class="nc" id="L129">                            System.out.print(&quot;You have overstayed by &quot; + differenceHours + &quot; hours. &quot;);</span>
+<span class="nc" id="L130">                            Calendar mydate = Calendar.getInstance();</span>
+<span class="nc" id="L131">                            int dow = mydate.get(Calendar.DAY_OF_WEEK);</span>
+<span class="nc bnc" id="L132" title="All 4 branches missed.">                            boolean isWeekday = (dow &gt;= Calendar.MONDAY) &amp;&amp; (dow &lt;= Calendar.FRIDAY);</span>
+                            // if it is a weekday, calls the weekday method to work out the price
+<span class="nc bnc" id="L134" title="All 2 branches missed.">                            if (isWeekday == true)</span>
+                            {
+<span class="nc" id="L136">                                WeekdayPrices.weekday();</span>
+<span class="nc" id="L137">                                discountPrice = Integer.parseInt(twoDP</span>
+                                        .format((WeekdayPrices.price) - (WeekdayPrices.price) / 10));
+<span class="nc" id="L139">                                System.out.println(&quot;An additional charge of � &quot; + discountPrice + &quot; is required&quot;);</span>
+                            }
+                            // if it is a weekend, calls the weekend method to work out the price
+                            else
+                            {
+<span class="nc" id="L144">                                WeekendPrices.weekend();</span>
+<span class="nc" id="L145">                                discountPrice = Integer.parseInt(twoDP</span>
+                                        .format((WeekendPrices.price) - (WeekendPrices.price) / 10));
+<span class="nc" id="L147">                                System.out.println(&quot;An additional charge of �&quot; + discountPrice + &quot; is required&quot;);</span>
+
+                            }
+                            // asks the user to enter their card number
+<span class="nc" id="L151">                            System.out.println(&quot;\nEnter card number:&quot;);</span>
+<span class="nc" id="L152">                            cardNo = keyboard.next();</span>
+                            // ensures that the card number must be 16 digits in length
+<span class="nc bnc" id="L154" title="All 2 branches missed.">                            while (cardNo.length() != 16)</span>
+                            {
+<span class="nc" id="L156">                                passOrFail = &quot;fail&quot;;</span>
+<span class="nc" id="L157">                                reason = &quot;Incorrect Card Number&quot;;</span>
+<span class="nc" id="L158">                                System.out.println(&quot;Card numbers must be 16 digits long.\nPlease enter card number.&quot;);</span>
+<span class="nc" id="L159">                                cardNo = keyboard.next();</span>
+                            }
+<span class="nc" id="L161">                            passOrFail = &quot;pass&quot;;</span>
+                            // asks the user to enter their expiry date in a mm/yy format
+<span class="nc" id="L163">                            System.out.println(&quot;Please enter your expiration date in the format mm/yy&quot;);</span>
+<span class="nc" id="L164">                            String input = keyboard.next();</span>
+                            // checks whether the date entered is before the current date
+<span class="nc" id="L166">                            SimpleDateFormat simpleDateFormatPay = new SimpleDateFormat(&quot;MM/yy&quot;);</span>
+<span class="nc" id="L167">                            dateFormat.setLenient(false);</span>
+                            try
+                            {
+<span class="nc" id="L170">                                expiry = simpleDateFormatPay.parse(input);</span>
+                            }
+<span class="nc" id="L172">                            catch (ParseException e)</span>
+                            {
+<span class="nc" id="L174">                                log.log(Level.SEVERE, &quot;error&quot;, e);</span>
+<span class="nc" id="L175">                            }</span>
+<span class="nc" id="L176">                            boolean expired = expiry.before(new Date());</span>
+                            // if the card has expired, tells the user this and allows them to re-enter
+<span class="nc bnc" id="L178" title="All 2 branches missed.">                            while (expired == true)</span>
+                            {
+<span class="nc" id="L180">                                passOrFail = &quot;fail&quot;;</span>
+<span class="nc" id="L181">                                reason = &quot;Card expired&quot;;</span>
+<span class="nc" id="L182">                                AutorisationFile.authorisation();</span>
+<span class="nc" id="L183">                                System.out</span>
+                                        .println(&quot;This card has already expired.\nPlease enter your expiry date in the format mm/yy&quot;);
+<span class="nc" id="L185">                                input = keyboard.next();</span>
+<span class="nc" id="L186">                                dateFormat = new SimpleDateFormat(&quot;MM/yy&quot;);</span>
+<span class="nc" id="L187">                                dateFormat.setLenient(false);</span>
+                                try
+                                {
+<span class="nc" id="L190">                                    expiry = dateFormat.parse(input);</span>
+                                }
+<span class="nc" id="L192">                                catch (ParseException e)</span>
+                                {
+<span class="nc" id="L194">                                    log.log(Level.SEVERE, &quot;error&quot;, e);</span>
+<span class="nc" id="L195">                                }</span>
+<span class="nc" id="L196">                                expired = expiry.before(new Date());</span>
+                            }
+<span class="nc" id="L198">                            passOrFail = &quot;pass&quot;;</span>
+<span class="nc" id="L199">                            System.out.println(&quot;Thank you. Your card has been charged �&quot; + discountPrice);</span>
+
+<span class="nc" id="L201">                        }</span>
+                        else
+                        {
+<span class="nc" id="L204">                            overstayed = false;</span>
+<span class="nc" id="L205">                            discountPrice = 0;</span>
+                        }
+
+                    }
+                }
+<span class="nc" id="L210">            }</span>
+<span class="nc" id="L211">            scan.close();</span>
+        }
+        finally
+<span class="nc" id="L214">        {</span>
+<span class="nc" id="L215">        }</span>
+
+        try
+        {
+
+<span class="nc bnc" id="L220" title="All 2 branches missed.">            if (prePaid == false)</span>
+            {
+<span class="nc" id="L222">                Calendar mydate = Calendar.getInstance();</span>
+<span class="nc" id="L223">                int dow = mydate.get(Calendar.DAY_OF_WEEK);</span>
+<span class="nc bnc" id="L224" title="All 4 branches missed.">                boolean isWeekday = (dow &gt;= Calendar.MONDAY) &amp;&amp; (dow &lt;= Calendar.FRIDAY);</span>
+                // if it is a weekday, calls the weekday method to work out the price
+<span class="nc bnc" id="L226" title="All 2 branches missed.">                if (isWeekday == true)</span>
+                {
+<span class="nc" id="L228">                    WeekdayPrices.weekday();</span>
+<span class="nc" id="L229">                    System.out.println(&quot;Total price is �&quot; + WeekdayPrices.price + &quot;0&quot;);</span>
+<span class="nc" id="L230">                    priceTemp = WeekdayPrices.price;</span>
+                }
+                // if it is a weekend, calls the weekend method to work out the price
+                else
+                {
+<span class="nc" id="L235">                    WeekendPrices.weekend();</span>
+<span class="nc" id="L236">                    System.out.println(&quot;Total price is �&quot; + WeekendPrices.price + &quot;0&quot;);</span>
+<span class="nc" id="L237">                    priceTemp = WeekendPrices.price;</span>
+                }
+
+                // asks the user to enter their card number
+<span class="nc" id="L241">                System.out.println(&quot;\nEnter card number:&quot;);</span>
+<span class="nc" id="L242">                cardNo = keyboard.next();</span>
+                // ensures that the card number must be 16 digits in length
+<span class="nc bnc" id="L244" title="All 2 branches missed.">                while (cardNo.length() != 16)</span>
+                {
+<span class="nc" id="L246">                    passOrFail = &quot;fail&quot;;</span>
+<span class="nc" id="L247">                    reason = &quot;Incorrect card number&quot;;</span>
+<span class="nc" id="L248">                    AutorisationFile.authorisation();</span>
+<span class="nc" id="L249">                    System.out.println(&quot;Card numbers must be 16 digits long.\nPlease enter card number.&quot;);</span>
+<span class="nc" id="L250">                    cardNo = keyboard.next();</span>
+                }
+<span class="nc" id="L252">                passOrFail = &quot;pass&quot;;</span>
+                // asks the user to enter their expiry date in a mm/yy format
+<span class="nc" id="L254">                System.out.println(&quot;Please enter your expiration date in the format mm/yy&quot;);</span>
+<span class="nc" id="L255">                String input = keyboard.next();</span>
+                // checks whether the date entered is before the current date
+<span class="nc" id="L257">                SimpleDateFormat simpleDateFormatPay = new SimpleDateFormat(&quot;MM/yy&quot;);</span>
+<span class="nc" id="L258">                dateFormat.setLenient(false);</span>
+                try
+                {
+<span class="nc" id="L261">                    expiry = simpleDateFormatPay.parse(input);</span>
+                }
+<span class="nc" id="L263">                catch (ParseException e)</span>
+                {
+<span class="nc" id="L265">                    log.log(Level.SEVERE, &quot;error&quot;, e);</span>
+<span class="nc" id="L266">                }</span>
+<span class="nc" id="L267">                boolean expired = expiry.before(new Date());</span>
+                // if the card has expired, tells the user this and allows them to re-enter
+<span class="nc bnc" id="L269" title="All 2 branches missed.">                while (expired == true)</span>
+                {
+<span class="nc" id="L271">                    passOrFail = &quot;fail&quot;;</span>
+<span class="nc" id="L272">                    reason = &quot;Card expired&quot;;</span>
+<span class="nc" id="L273">                    AutorisationFile.authorisation();</span>
+<span class="nc" id="L274">                    System.out.println(&quot;This card has already expired.\nPlease enter a new card&quot;);</span>
+<span class="nc" id="L275">                    System.out.println(&quot;\nEnter card number:&quot;);</span>
+<span class="nc" id="L276">                    cardNo = keyboard.next();</span>
+                    // ensures that the card number must be 16 digits in length
+<span class="nc bnc" id="L278" title="All 2 branches missed.">                    while (cardNo.length() != 16)</span>
+                    {
+<span class="nc" id="L280">                        passOrFail = &quot;fail&quot;;</span>
+<span class="nc" id="L281">                        reason = &quot;Incorrect card number&quot;;</span>
+<span class="nc" id="L282">                        AutorisationFile.authorisation();</span>
+<span class="nc" id="L283">                        System.out.println(&quot;Card numbers must be 16 digits long.\nPlease enter card number.&quot;);</span>
+<span class="nc" id="L284">                        cardNo = keyboard.next();</span>
+                    }
+<span class="nc" id="L286">                    System.out.println(&quot;Please enter your expiration date in the format mm/yy&quot;);</span>
+<span class="nc" id="L287">                    input = keyboard.next();</span>
+<span class="nc" id="L288">                    dateFormat = new SimpleDateFormat(&quot;MM/yy&quot;);</span>
+<span class="nc" id="L289">                    dateFormat.setLenient(false);</span>
+                    try
+                    {
+<span class="nc" id="L292">                        expiry = dateFormat.parse(input);</span>
+                    }
+<span class="nc" id="L294">                    catch (ParseException e)</span>
+                    {
+<span class="nc" id="L296">                        log.log(Level.SEVERE, &quot;error&quot;, e);</span>
+<span class="nc" id="L297">                    }</span>
+<span class="nc" id="L298">                    expired = expiry.before(new Date());</span>
+                }
+<span class="nc" id="L300">                passOrFail = &quot;pass&quot;;</span>
+<span class="nc" id="L301">                System.out.println(&quot;Thank you. Your card has been charged �&quot; + priceTemp + &quot;0&quot;);</span>
+
+<span class="nc bnc" id="L303" title="All 2 branches missed.">                if (prePaid == true)</span>
+                {
+<span class="nc" id="L305">                    System.out.println(hours);</span>
+
+                }
+
+            }
+        }
+        finally
+<span class="nc" id="L312">        {</span>
+<span class="nc" id="L313">        }</span>
+
+<span class="nc" id="L315">    }</span>
+
+	private static void stayedFor(DateFormat dateFormat, int lineNum,
+			String line) throws ParseException {
+		{ 
+<span class="nc" id="L320">		        lineNumber = lineNum;</span>
+		        // splits string number plate is found on at tab and reads whether it is prepaid or not
+<span class="nc" id="L322">		        String[] details = line.split(&quot;\t&quot;);</span>
+
+		        // finds entry time and assigns to variable
+<span class="nc" id="L325">		        entryTime = dateFormat.parse(details[1]);</span>
+
+<span class="nc" id="L327">		        System.out.println(&quot;Arrived at: &quot; + dateFormat.format(entryTime));</span>
+<span class="nc" id="L328">		        System.out.println(&quot;Departing at: &quot; + dateFormat.format(exitTime));</span>
+
+		        // finds the difference between the entry and exit time
+<span class="nc" id="L331">		        long secs = (exitTime.getTime() - entryTime.getTime()) / 1000;</span>
+<span class="nc" id="L332">		        hours = (int) (secs / 3600);</span>
+<span class="nc" id="L333">		        minutes = (int) ((secs % 3600) / 60);</span>
+
+<span class="nc bnc" id="L335" title="All 2 branches missed.">		        if (minutes &gt; 0)</span>
+		        {
+<span class="nc" id="L337">		            hoursToCharge = hours + 1;</span>
+		        }
+
+<span class="nc bnc" id="L340" title="All 2 branches missed.">		        else if (minutes == 0)</span>
+		        {
+<span class="nc" id="L342">		            hoursToCharge = hours;</span>
+		        }
+
+<span class="nc" id="L345">		        System.out.println(&quot;Stayed for: &quot; + hoursToCharge + &quot; hours&quot;);</span>
+
+<span class="nc" id="L347">		        yesOrNo = details[3];</span>
+
+		        // if it is prepaid, set prepaid boolean to true, if not, set to false
+<span class="nc bnc" id="L350" title="All 2 branches missed.">		        if (&quot;yes&quot;.equals(yesOrNo))</span>
+		        {
+<span class="nc" id="L352">		            prePaid = true;</span>
+
+		        }
+<span class="nc bnc" id="L355" title="All 2 branches missed.">		        else if (&quot;no&quot;.equals(yesOrNo))</span>
+		        {
+<span class="nc" id="L357">		            prePaid = false;</span>
+		        }
+
+		    }
+<span class="nc" id="L361">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
