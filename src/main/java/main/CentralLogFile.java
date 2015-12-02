@@ -93,7 +93,7 @@ public class CentralLogFile
                     {
                         String[] details = line.split("\t");
 
-                        preBookedPrice = Integer.parseInt(details[2]);
+                        preBookedPrice = Double.parseDouble(details[2]);
                         // reads hours stayed from only the line that the number plate was stored on and sets to a
                         // variable
 
@@ -131,6 +131,7 @@ public class CentralLogFile
             out.print(dateFormat.format(ExitBarrier.exitTime) + ",");
             out.print(ExitBarrier.hours + ":");
             out.print(ExitBarrier.minutes + ",");
+            out.print(ExitBarrier.priceTemp + ExitBarrier.discountPrice + ",");
             out.println(preBookedPrice + ExitBarrier.priceTemp + ExitBarrier.discountPrice);
         	}
         	

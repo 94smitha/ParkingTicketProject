@@ -42,7 +42,7 @@ public class ExitBarrier extends EntranceTicket
 
     static int hoursToCharge;
 
-    static int discountPrice;
+    static double discountPrice;
 
     static String regNumber;
 
@@ -146,7 +146,7 @@ public class ExitBarrier extends EntranceTicket
                             if (isWeekday == true)
                             {
                                 WeekdayPrices.weekday();
-                                discountPrice = Integer.parseInt(twoDP
+                                discountPrice = Double.parseDouble(twoDP
                                         .format((WeekdayPrices.price) - (WeekdayPrices.price) / 10));
                                 System.out.println("An additional charge of £ " + discountPrice + " is required");
                             }
@@ -154,7 +154,7 @@ public class ExitBarrier extends EntranceTicket
                             else
                             {
                                 WeekendPrices.weekend();
-                                discountPrice = Integer.parseInt(twoDP
+                                discountPrice = Double.parseDouble(twoDP
                                         .format((WeekendPrices.price) - (WeekendPrices.price) / 10));
                                 System.out.println("An additional charge of £" + discountPrice + " is required");
 
