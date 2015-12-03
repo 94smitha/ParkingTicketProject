@@ -1,0 +1,9 @@
+.settings/
+.classpath
+.project
+target/
+AuthorisationFile.txt
+CentralLogFile.txt
+EntranceTicketData.txt
+PreBookedData.txt
+

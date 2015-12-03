@@ -42,7 +42,10 @@ public class AuthorisationFile
 
         try
         {
-            File f = new File("C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\AuthorisationFile.txt");
+            File f = new File("AuthorisationFile.txt");
+            if(!f.exists()){
+            	f.createNewFile();
+            }
             Scanner sc = new Scanner(f);
 
             while (sc.hasNextLine())
@@ -81,7 +84,7 @@ public class AuthorisationFile
             }
 
             try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
-                    "C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\AuthorisationFile.txt", true))))
+                    "AuthorisationFile.txt", true))))
             {
                 out.print((transNo + 1) + ",");
                

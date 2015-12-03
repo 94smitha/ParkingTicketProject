@@ -34,7 +34,10 @@ public class EntranceTicket {
         // increments transaction number
         try
         {
-            File f = new File("C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\EntranceTicketData.txt");
+            File f = new File("EntranceTicketData.txt");
+            if (!f.exists()){
+            	f.createNewFile();
+            }
             Scanner sc = new Scanner(f);
 
             while (sc.hasNextLine())
@@ -61,7 +64,10 @@ public class EntranceTicket {
         // looks in pre-booked data file to see if number plate is present meaning they have pre-booked
         try
         {
-            File file = new File("C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\PreBookedData.txt");
+            File file = new File("PreBookedData.txt");
+            if (!file.exists()){
+            	file.createNewFile();
+            }
             Scanner scan = new Scanner(file);
 
             while (scan.hasNextLine())
@@ -92,7 +98,7 @@ public class EntranceTicket {
 
         // writes data to a text file
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
-                "C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\EntranceTicketData.txt", true))))
+                "EntranceTicketData.txt", true))))
         {
             out.print(transNo + 1);
             out.print("\t" + dateFormat.format(date));

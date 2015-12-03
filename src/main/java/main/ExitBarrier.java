@@ -65,7 +65,7 @@ public class ExitBarrier extends EntranceTicket
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-        String filePath = "C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\EntranceTicketData.txt";
+        String filePath = "EntranceTicketData.txt";
 
         DecimalFormat twoDP = new DecimalFormat("##.##");
 
@@ -80,6 +80,9 @@ public class ExitBarrier extends EntranceTicket
         {
             
 			File file = new File(filePath);
+			if (!file.exists()){
+				file.createNewFile();
+			}
             Scanner scan = new Scanner(file);
             
             int lineNum = 0;
@@ -117,7 +120,10 @@ public class ExitBarrier extends EntranceTicket
 
         try
         {
-            File file = new File("C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\PreBookedData.txt");
+            File file = new File("PreBookedData.txt");
+            if (!file.exists()){
+            	file.createNewFile();
+            }
             Scanner scan = new Scanner(file);
 
             while (scan.hasNextLine())

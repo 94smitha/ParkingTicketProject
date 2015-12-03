@@ -26,7 +26,7 @@ public class CentralLogFile
 
     static double preBookedPrice;
 
-    public static void centralLog()
+    public static void centralLog() throws IOException
     {
 
         String regNo = ExitBarrier.regNumber;
@@ -36,12 +36,15 @@ public class CentralLogFile
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
         System.out.println(regNo);
-        String filePath = "C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\EntranceTicketData.txt";
+        String filePath = "EntranceTicketData.txt";
 
         try
         {
             
 			File file = new File(filePath);
+			if (!file.exists()){
+				file.createNewFile();
+			}
             Scanner scan = new Scanner(file);
 
             while (scan.hasNextLine())
@@ -77,7 +80,11 @@ public class CentralLogFile
 
         try
         {
-            File file = new File("C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\PreBookedData.txt");
+            File file = new File("PreBookedData.txt");
+            if (!file.exists()){
+            	file.createNewFile();
+            	
+            }
             Scanner scanner = new Scanner(file);
 
             int lineNum = 0;
@@ -114,7 +121,7 @@ public class CentralLogFile
         }
 
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
-                "C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\CentralLogFile.txt", true))))
+                "CentralLogFile.txt", true))))
         {
         if (ExitBarrier.invalid == true)
         	{

@@ -126,7 +126,7 @@ public class PreBookedTicket
             passOrFail = "pass";
             // writes the reg number and number of hours booked to a text file
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
-                    "C:\\Users\\A612475\\Desktop\\Project1\\TextFiles\\PreBookedData.txt", true)));
+                    "PreBookedData.txt", true)));
             {
                 out.print(regNo);
                 out.print("\t" + hoursBooked);
