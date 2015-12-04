@@ -96,6 +96,7 @@ public class ExitBarrier extends EntranceTicket
                 	invalid = false;
                     System.out.println("\nThank you for your stay");
                 	stayedFor(dateFormat, lineNum, line);
+                	break;
                 	
                 
                 }

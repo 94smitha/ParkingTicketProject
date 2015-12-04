@@ -128,7 +128,8 @@ public class PreBookedTicket
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
                     "PreBookedData.txt", true)));
             {
-                out.print(regNo);
+                out.println();
+            	out.print(regNo);
                 out.print("\t" + hoursBooked);
                 out.println("\t" + priceTemp);
 
