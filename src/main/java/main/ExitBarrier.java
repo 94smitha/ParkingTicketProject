@@ -238,6 +238,7 @@ public class ExitBarrier extends EntranceTicket
 
             if (prePaid == false)
             {
+            	differenceHours = 0;
                 Calendar mydate = Calendar.getInstance();
                 int dow = mydate.get(Calendar.DAY_OF_WEEK);
                 boolean isWeekday = (dow >= Calendar.MONDAY) && (dow <= Calendar.FRIDAY);
